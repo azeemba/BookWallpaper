@@ -67,7 +67,8 @@ class WallpaperPreviewActivity : AppCompatActivity() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     try {
                         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
-                        wallpaperManager.setBitmap(resource)
+                        wallpaperManager.setBitmap(resource, null, true, WallpaperManager.FLAG_LOCK)
+                        wallpaperManager.setBitmap(resource, null, true, WallpaperManager.FLAG_SYSTEM)
                         Toast.makeText(this@WallpaperPreviewActivity, "Wallpaper set successfully", Toast.LENGTH_SHORT).show()
                         finish()
                     } catch (e: Exception) {
