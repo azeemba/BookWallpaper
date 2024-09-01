@@ -71,6 +71,7 @@ class WallpaperPreviewActivity : AppCompatActivity() {
                         wallpaperManager.setBitmap(resource, null, true, WallpaperManager.FLAG_SYSTEM)
                         Toast.makeText(this@WallpaperPreviewActivity, "Wallpaper set successfully", Toast.LENGTH_SHORT).show()
                         finish()
+                        moveTaskToBack(true)
                     } catch (e: Exception) {
                         Toast.makeText(this@WallpaperPreviewActivity, "Failed to set wallpaper", Toast.LENGTH_SHORT).show()
                     }
