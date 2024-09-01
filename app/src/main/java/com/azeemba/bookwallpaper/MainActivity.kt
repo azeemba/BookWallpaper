@@ -1,8 +1,13 @@
 package com.azeemba.bookwallpaper
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var bookAdapter: BookAdapter
 
+    private lateinit var progressBarr: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         bookAuthor = findViewById(R.id.bookAuthor)
         searchButton = findViewById(R.id.searchButton)
         recyclerView = findViewById(R.id.recyclerView)
+        progressBarr = findViewById(R.id.progressBar_cyclic)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -33,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = bookAdapter
 
         searchButton.setOnClickListener {
+            progressBarr.visibility = View.VISIBLE
             val title = bookTitle.text.toString()
             val author = bookAuthor.text.toString()
             val query = "intitle:$title+inauthor:$author"
@@ -43,10 +52,12 @@ class MainActivity : AppCompatActivity() {
                         val books = response.body()?.items ?: emptyList()
                         bookAdapter.submitList(books)
                     }
+                    progressBarr.visibility = View.GONE
                 }
 
                 override fun onFailure(call: Call<BookSearchResponse>, t: Throwable) {
                     // Handle error
+                    progressBarr.visibility = View.GONE
                 }
             })
         }
